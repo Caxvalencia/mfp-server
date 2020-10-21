@@ -51,7 +51,7 @@ console-mfp:
 
 .PHONY: up-mfp
 up-mfp:
-	docker run --name $(MFP_SERVER) -it -d --rm -p 9080:9080 caxvalencia/mfp-server
+	docker run --name $(MFP_SERVER) -it -d -p 9080:9080 caxvalencia/mfp-server
 	@echo " ---------------------------------------------------------------"
 	@echo "|    MFP SERVER RUNNING IN http://localhost:9080/mfpconsole/    |"
 	@echo " ---------------------------------------------------------------"
