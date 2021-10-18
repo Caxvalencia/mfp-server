@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine3.9
+FROM openjdk:8-jdk-slim
 
 # Documentation https://mobilefirstplatform.ibmcloud.com/downloads/#developer-kit
 
@@ -8,15 +8,27 @@ ENV MFP_SERVE_DOWNLOAD=https://github.com/MobileFirst-Platform-Developer-Center/
 
 WORKDIR "/mfp"
 
-# INSTALL ZIP AND CURL
-RUN apk update && apk upgrade &&\
-    apk --no-cache add curl unzip &&\
-    rm -rf /var/cache/apk/* &&\
-    # DOWNLOAD MFP-DEVKIT
-    curl -fsSL -o mfp-server.zip $MFP_SERVE_DOWNLOAD &&\
+# INSTALL UNZIP AND CURL
+RUN apt-get update && apt-get install -y -qq \
+    aufs-tools \
+    automake \
+    build-essential \
+    curl \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# DOWNLOAD MFP-DEVKIT
+RUN curl -fsSL -o mfp-server.zip $MFP_SERVE_DOWNLOAD &&\
     unzip -q "./mfp-server.zip" &&\
     rm "./mfp-server.zip" &&\
     chmod +x run.sh
+
+# DOWNLOAD AWS-CLI
+RUN curl -fsSL -o awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.42.zip &&\
+    unzip -q "./awscliv2.zip" &&\
+    rm "./awscliv2.zip" &&\
+    chmod +x ./aws/install &&\
+    ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
 
 EXPOSE 9080
 
