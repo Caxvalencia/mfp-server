@@ -1,4 +1,4 @@
-# MoblieFirst Platform Server
+# MobileFirst Platform Server
 Create an instance of mfp-server provided by IBM DevKit
 
 ## Based on
